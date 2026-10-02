@@ -2,32 +2,33 @@
 
 ## App description
 
-**Weekflow is a lightweight, standalone weekly timesheet planner for people who want to mark work days and enter planned hours quickly.** Its week-at-a-glance view replaces repetitive day-by-day selection with one-click day cards and useful bulk actions. Weekflow is an independent planning demo: it does not connect to, copy data from, or submit information to Zensar or any other timesheet service.
+**Weekflow is a lightweight, standalone two-week timesheet planner for people who want to mark work days and enter planned hours quickly.** Its two-week view replaces repetitive day-by-day selection with one-click day cards and useful bulk actions. Weekflow is an independent planning demo: it does not connect to, copy data from, or submit information to Zensar or any other timesheet service.
 
 ### Short description
 
-> Plan a work week in a few clicks. Select days, adjust hours, and see your weekly total at a glance—with your plan saved in your browser.
+> Plan two weeks in a few clicks. Select days, adjust hours, and see your total at a glance. Days more than 14 days old are locked.
 
 ## What it does
 
-- Shows a Monday-to-Sunday week with a clear visual state for planned and unplanned days.
+- Shows two consecutive Monday-to-Sunday weeks in one view with clear planned and unplanned day states.
 - Lets you select or deselect an individual day with its day card.
-- Adds Monday through Friday with **Weekdays**, or removes all selections with **Clear week**.
+- Adds weekdays across both visible weeks with **Weekdays**, or removes editable selections with **Clear 2 weeks**.
 - Allows inline daily hour entry in quarter-hour increments, from 0 to 24.
 - Calculates the selected-day count and planned-hour total immediately.
-- Navigates between weeks and provides a **Today** shortcut.
+- Navigates in weekly increments while keeping two weeks visible, and provides a **Today** shortcut.
+- Locks dates earlier than 14 days before today. The date exactly 14 days ago remains editable.
 - Saves each week in the current browser using local storage, so a refresh does not discard the plan.
 - Supports keyboard operation: Tab to reach controls, Enter or Space to toggle a day, and the left/right arrows to move between day cards.
 - Adapts its layout for desktop and mobile screens.
 
 ## How to use
 
-1. Start the app using the instructions below and open it in a browser.
-2. Select the days you intend to plan, or use **Weekdays** to select the standard work week.
+1. Open the app in a browser. The current view shows the previous and current weeks.
+2. Select the days you intend to plan, or use **Weekdays** to select Monday through Friday in both displayed weeks.
 3. Adjust the hours on each selected day. The total updates as you edit.
-4. Use the week arrows to plan a different week. Use **Clear week** to remove that week's day selections.
+4. Use the week arrows to shift the two-week window. Use **Clear 2 weeks** to remove selections from editable days in both displayed weeks.
 
-Unselected days are not included in the hour total. Clearing a week removes its day selections but keeps the hours entered for those days in case you select them again.
+Unselected days are not included in the total. Clearing selections keeps the hours entered for those days. Dates more than 14 days in the past are locked, including in earlier windows reached with navigation.
 
 ## Run locally
 
@@ -57,7 +58,7 @@ For this repository, the expected site address is [https://rahulkhanna-1086.gith
 npm test
 ```
 
-The Node built-in test suite checks week calculation and navigation, weekday selection, individual toggling, clearing, hour validation, and totals.
+The Node built-in test suite checks week calculation, two-week display, the 14-day edit cutoff, weekday selection, individual toggling, clearing, hour validation, and totals.
 
 ## Privacy and scope
 

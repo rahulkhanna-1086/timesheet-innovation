@@ -74,9 +74,18 @@ h1 span { color: var(--green); }
 .muted-action:hover { background: #f6f7f5; }
 .action-hint { margin-left: auto; color: #a1a8a3; font-size: 10px; }
 
-.week-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 9px; }
+.week-grid { display: flex; flex-direction: column; gap: 17px; }
+.week-row-heading { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 8px; color: #53615a; font: 700 11px "Manrope", sans-serif; }
+.week-row-heading span:last-child { color: #9aa39d; font: 500 10px "DM Sans", sans-serif; }
+.week-row-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 9px; }
 .day-card { position: relative; min-width: 0; min-height: 183px; padding: 0 10px 12px; border: 1px solid #e8ece8; border-radius: 10px; background: #fff; transition: border-color .18s, background .18s, box-shadow .18s, transform .18s; }
 .day-card:hover { border-color: #c9ddd0; transform: translateY(-2px); }
+.day-card.is-locked { border-style: dashed; background: #f8f9f7; }
+.day-card.is-locked:hover { border-color: #e8ece8; transform: none; }
+.day-card.is-locked .day-toggle { cursor: not-allowed; }
+.day-card.is-locked .date-number { color: #9aa39d; }
+.day-card.is-locked .selection-marker { border-color: #e5e8e4; color: #b2b9b3; }
+.day-card.is-locked .hours-control input:disabled { background: #f4f5f3; color: #98a099; cursor: not-allowed; }
 .day-card.is-selected { border-color: #acd3bb; background: #f3faf5; box-shadow: inset 0 0 0 1px rgba(33, 140, 105, .04); }
 .day-card.is-today:not(.is-selected) { border-color: #d8e6dc; }
 .day-toggle { display: flex; width: 100%; flex-direction: column; align-items: flex-start; padding: 11px 0 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
@@ -113,8 +122,8 @@ kbd { display: inline-block; min-width: 19px; margin: 0 2px; padding: 3px 5px; b
   .topbar { height: 68px; }
   main { padding-top: 42px; }
   .planner-panel { margin-top: 34px; padding: 23px 20px 0; }
-  .week-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .day-card { min-height: 165px; }
+  .week-row-grid { gap: 6px; }
+  .day-card { min-height: 165px; padding-right: 7px; padding-left: 7px; }
   .page-footer { margin-top: 40px; }
 }
 
@@ -130,9 +139,9 @@ kbd { display: inline-block; min-width: 19px; margin: 0 2px; padding: 3px 5px; b
   .today-button { padding: 7px; font-size: 11px; }
   .quick-actions { flex-wrap: wrap; gap: 7px; margin-top: 19px; }
   .action-hint { display: none; }
-  .week-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .day-card { min-height: 150px; padding-right: 12px; padding-left: 12px; }
-  .day-card:last-child { grid-column: span 2; }
+  .week-grid { gap: 14px; }
+  .week-row-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+  .day-card { min-height: 140px; padding-right: 9px; padding-left: 9px; }
   .panel-footer { min-height: 56px; }
   .save-state { max-width: 145px; font-size: 9px; }
   .week-total { gap: 6px; font-size: 10px; }

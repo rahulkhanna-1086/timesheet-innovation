@@ -20,6 +20,14 @@ export function getWeekStart(date = new Date()) {
   return utcDate.toISOString().slice(0, 10);
 }
 
+export function getEditableDateLimit(today = new Date()) {
+  return addDays(toDateKey(today), -14);
+}
+
+export function isDateEditable(date, earliestEditableDate) {
+  return !earliestEditableDate || date >= earliestEditableDate;
+}
+
 export function addDays(dateKey, amount) {
   const date = fromDateKey(dateKey);
   date.setUTCDate(date.getUTCDate() + amount);
@@ -33,29 +41,46 @@ export function createWeek(weekStart) {
   });
 }
 
-export function setWeekdays(week) {
+export function getTwoWeekDays(weekStart, savedWeeks = {}) {
+  const previousWeekStart = addDays(weekStart, -7);
+  return [
+    ...(savedWeeks[previousWeekStart] || createWeek(previousWeekStart)),
+    ...(savedWeeks[weekStart] || createWeek(weekStart)),
+  ];
+}
+
+export function setWeekdays(week, earliestEditableDate) {
   return week.map((day, index) => ({
     ...day,
-    selected: index < 5,
+    selected: isDateEditable(day.date, earliestEditableDate) ? index < 5 : day.selected,
   }));
 }
 
-export function clearWeek(week) {
-  return week.map((day) => ({ ...day, selected: false }));
+export function clearWeek(week, earliestEditableDate) {
+  return week.map((day) => ({
+    ...day,
+    selected: isDateEditable(day.date, earliestEditableDate) ? false : day.selected,
+  }));
 }
 
-export function toggleDay(week, date) {
+export function toggleDay(week, date, earliestEditableDate) {
   return week.map((day) => (
-    day.date === date ? { ...day, selected: !day.selected } : day
+    day.date === date && isDateEditable(day.date, earliestEditableDate)
+      ? { ...day, selected: !day.selected }
+      : day
   ));
 }
 
-export function setDayHours(week, date, value) {
+export function setDayHours(week, date, value, earliestEditableDate) {
   const hours = Number(value);
   if (!Number.isFinite(hours) || hours < 0 || hours > 24) {
     return week;
   }
-  return week.map((day) => (day.date === date ? { ...day, hours } : day));
+  return week.map((day) => (
+    day.date === date && isDateEditable(day.date, earliestEditableDate)
+      ? { ...day, hours }
+      : day
+  ));
 }
 
 export function getWeekSummary(week) {

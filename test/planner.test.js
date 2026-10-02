@@ -4,8 +4,11 @@ import {
   addDays,
   clearWeek,
   createWeek,
+  getEditableDateLimit,
+  getTwoWeekDays,
   getWeekStart,
   getWeekSummary,
+  isDateEditable,
   setDayHours,
   setWeekdays,
   toggleDay,
@@ -16,9 +19,36 @@ test("weeks start on Monday and navigate across month boundaries", () => {
   assert.equal(addDays("2026-09-28", 7), "2026-10-05");
 });
 
+test("the planner shows two consecutive full weeks", () => {
+  const days = getTwoWeekDays("2026-09-28");
+  assert.equal(days.length, 14);
+  assert.equal(days[0].date, "2026-09-21");
+  assert.equal(days[13].date, "2026-10-04");
+});
+
+test("days exactly 14 days old remain editable, older days are locked", () => {
+  const limit = getEditableDateLimit(new Date(2026, 9, 2));
+  assert.equal(limit, "2026-09-18");
+  assert.equal(isDateEditable("2026-09-18", limit), true);
+  assert.equal(isDateEditable("2026-09-17", limit), false);
+});
+
 test("weekday quick-add selects Monday through Friday", () => {
   const week = setWeekdays(createWeek("2026-09-28"));
   assert.deepEqual(week.map((day) => day.selected), [true, true, true, true, true, false, false]);
+});
+
+test("bulk actions and day edits preserve locked dates", () => {
+  const week = setDayHours(createWeek("2026-09-14"), "2026-09-17", "6");
+  const selected = toggleDay(week, "2026-09-17");
+  const edited = setDayHours(selected, "2026-09-17", "7.5", "2026-09-18");
+  const cleared = clearWeek(edited, "2026-09-18");
+  const weekdays = setWeekdays(cleared, "2026-09-18");
+
+  assert.equal(edited[3].hours, 6);
+  assert.equal(edited[3].selected, true);
+  assert.equal(cleared[3].selected, true);
+  assert.equal(weekdays[3].selected, true);
 });
 
 test("a day can be toggled without changing its hours", () => {
